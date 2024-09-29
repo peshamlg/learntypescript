@@ -21,3 +21,31 @@ class Block implements BlockShape {
         return crypto.createHash("sha256").update(toHash).digest("hex")
     }
 }
+
+class Blockhcain {
+    private blocks: Block[]
+    constructor() {
+        this.blocks = []
+    }
+
+    private getPreveHash() {
+        if(this.blocks.length === 0) return ""
+        return this.blocks[this.blocks.length - 1].hash
+    }
+
+    public addBlock(data: string) {
+        const newBlock = new Block(this.getPreveHash(), this.blocks.length + 1, data)
+        this.blocks.push(newBlock)
+    }
+    public getBlock() {
+        return [...this.blocks]
+    }
+}
+
+const blockchain = new Blockhcain()
+
+blockchain.addBlock("First one")
+blockchain.addBlock("Second one")
+blockchain.addBlock("Third one")
+
+console.log(blockchain.getBlock())
